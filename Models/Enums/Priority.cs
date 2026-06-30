@@ -1,12 +1,10 @@
 namespace IntelligencePipeline.Models.Enums
 {
-    public enum ReportStatus
+    public enum Priority
     {
-        New,
-        Validating,
-        Validated,
-        Rejected,
-        InProgress,
-        Completed
+        Low,
+        Medium,
+        High,
+        Critical
     }
 }
