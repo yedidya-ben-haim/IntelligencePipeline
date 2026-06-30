@@ -1,10 +1,11 @@
 namespace IntelligencePipeline.Models.Enums
 {
-    public enum Priority
+    public enum Language
     {
-        Low,
-        Medium,
-        High,
-        Critical
+        Hebrew,
+        Arabic,
+        English,
+        Russian,
+        Other
     }
 }
