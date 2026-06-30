@@ -1,10 +1,10 @@
 namespace IntelligencePipeline.Models.Enums
 {
-    public enum Priority
+    public enum Classification
     {
-        Low,
-        Medium,
-        High,
-        Critical
+        Unclassified,
+        Restricted,
+        Secret,
+        TopSecret
     }
 }
