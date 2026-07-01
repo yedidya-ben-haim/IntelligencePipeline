@@ -1,63 +1,93 @@
+using IntelligencePipeline.Models.Enums;
+
 namespace IntelligencePipeline.Models.Reports
 {
     // Represents an intelligence report from a signal intelligence system.
-    public class RadarReport : Report
+    public class SignalReport : Report
     {
-        private int _speed;
-        private int _direction;
-        private int _distance;
+        private double _frequency;
+        private string _content;
+        private Language _language;
+        private int _signalStrength;
 
 
-        //// Properties
-        //public int Speed { get => _speed; protected set { _speed = value; } }
-        //public int Direction { get => _direction; protected set { _direction = value; } }
-        //public int Distance { get => _distance; protected set { _distance = value; } }
+        // Properties
+        public double Frequency { get => _frequency; protected set { _frequency = value; } }
+        public string Content { get => _content; protected set { _content = value; } }
+        public Language Language { get => _language; protected set { _language = value; } }
+        public int SignalStrength { get => _signalStrength; protected set { _signalStrength = value; } }
 
 
-        //// Constructor
-        //public RadarReport(int reportId, DateTime timestamp, double latitude, double longitude,
-        //                   string description, int speed, int direction, int distance)
-        //                    : base(reportId, timestamp, latitude, longitude, description)
-        //{
-        //    Speed = speed;
-        //    Direction = direction;
-        //    Distance = distance;
-        //}
-
-
-
-        //// Override Methods
-        //public override string GetSourceType() => "Radar";
+        // Constructor
+        public SignalReport(int reportId, DateTime timestamp, double latitude, double longitude, 
+                            string description, double frequency, string content, Language language,
+                            int signalStrength)
+                            : base(reportId, timestamp, latitude, longitude, description)
+        {
+            Frequency = _frequency;
+            Content = _content;
+            Language = _language;
+            SignalStrength = _signalStrength;
+        }
 
 
 
-        //// Calculate radar specific reliability
-        //public override int CalculateReliabilityScore()
-        //{
-        //    const int BaseRadarReliabilityScore = 6;
+        // Override Methods
+        public override string GetSourceType() => "Signal";
 
-        //    int reliabilityScore = BaseRadarReliabilityScore;
 
-        //    if (Distance >= 500 && Distance <= 3000)
-        //    {
-        //        reliabilityScore += 2;
-        //    }
-        //    else if (Distance > 70000)
-        //    {
-        //        reliabilityScore -= 2;
-        //    }
+        // Auxiliary functions
+        public bool ContainSuspiciousWord()
+        {
+            string[] suspiciousWords = { "attack", "target", "border", "vehicle" };
 
-        //    if (Speed >= 10 && Speed <= 900)
-        //    {
-        //        reliabilityScore += 1;
-        //    }
-        //    else if (Speed > 1500)
-        //    {
-        //        reliabilityScore -= 2;
-        //    }
+            bool isContainSuspiciousWord = false;
 
-        //    return reliabilityScore;
-        //}
+            foreach (string suspiciousWord in suspiciousWords)
+            {
+                if (Content.Contains(suspiciousWord, StringComparison.OrdinalIgnoreCase))
+                {
+                    isContainSuspiciousWord = true;
+                }
+
+            }
+
+            return isContainSuspiciousWord;
+        }
+
+
+
+        // Calculate Signal specific reliability
+        public override int CalculateReliabilityScore()
+        {
+            const int BaseSignalReliabilityScore = 5;
+
+            int reliabilityScore = BaseSignalReliabilityScore;
+
+            // check SignalStrength
+            if (SignalStrength >= -40)
+            {
+                reliabilityScore += 3;
+            }
+            else if (SignalStrength >= -70)
+            {
+                reliabilityScore += 2;
+            }
+            else if (SignalStrength < -100)
+            {
+                reliabilityScore -= 2;
+            }
+
+
+            // check suspicious word
+            if (ContainSuspiciousWord())
+            {
+                reliabilityScore += 1;
+            }
+            
+
+            return reliabilityScore;
+        }
 
 
     }

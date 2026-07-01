@@ -34,7 +34,7 @@ namespace IntelligencePipeline.Models.Reports
 
 
         // Auxiliary functions
-        public bool GetDescriptionContainSuspiciousWord()
+        public bool ContainSuspiciousWord()
         {
             string[] suspiciousWords = { "weapon", "vehicle", "movement", "explosion" };
 
@@ -60,7 +60,7 @@ namespace IntelligencePipeline.Models.Reports
 
             reliabilityScore += ConfidenceLevel;
 
-            if (GetDescriptionContainSuspiciousWord())
+            if (ContainSuspiciousWord())
             {
                 reliabilityScore += 1;
             }
