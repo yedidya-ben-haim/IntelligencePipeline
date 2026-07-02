@@ -31,28 +31,28 @@ namespace IntelligencePipeline
                             HandleAddReport();
                             break;
                         case 2:
-                            Console.WriteLine("Displaying Validated Reports"); // ימומש בהמשך
+                            Console.WriteLine("Displaying Validated Reports"); 
                             break;
                         case 3:
-                            Console.WriteLine("Search Reports"); // ימומש בהמשך
+                            Console.WriteLine("Search Reports"); 
                             break;
                         case 4:
-                            Console.WriteLine("Filter Reports"); // ימומש בהמשך
+                            Console.WriteLine("Filter Reports"); 
                             break;
                         case 5:
-                            Console.WriteLine("Sort Reports"); // ימומש בהמשך
+                            Console.WriteLine("Sort Reports"); 
                             break;
                         case 6:
-                            Console.WriteLine("Update Report Status"); // ימומש בהמשך
+                            Console.WriteLine("Update Report Status"); 
                             break;
                         case 7:
-                            Console.WriteLine("Show Report Details"); // ימומש בהמשך
+                            Console.WriteLine("Show Report Details"); 
                             break;
                         case 8:
-                            Console.WriteLine("Displaying Rejected Reports"); // ימומש בהמשך
+                            Console.WriteLine("Displaying Rejected Reports"); 
                             break;
                         case 9:
-                            Console.WriteLine("Show Statistics"); // ימומש בהמשך
+                            Console.WriteLine("Show Statistics"); 
                             break;
                         case 10:
                             Console.WriteLine("Exiting the system. Goodbye!");

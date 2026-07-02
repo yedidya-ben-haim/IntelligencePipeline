@@ -1,5 +1,5 @@
 using IntelligencePipeline.Models.Reports;
-using System.Xml.Linq;
+
 
 namespace IntelligencePipeline.Validation
 {
@@ -19,6 +19,9 @@ namespace IntelligencePipeline.Validation
                 return ValidationResult.Failure(rejectionReason);
             
             if (!ValidateUnit(soldierReport, out rejectionReason))
+                return ValidationResult.Failure(rejectionReason);
+            
+            if (!ValidateConfidenceLevel(soldierReport, out rejectionReason))
                 return ValidationResult.Failure(rejectionReason);
 
             return ValidationResult.Success();
@@ -80,16 +83,16 @@ namespace IntelligencePipeline.Validation
             rejectionReason = null;
             return true;
         }
-        
-        // Unit check
-        protected bool ValidateUnit(SoldierReport report, out string rejectionReason)
-        {
-            int minUnitname = 2;
-            int maxUnitName = 50;
 
-            if (report.Unit.Length < minUnitname || report.Unit.Length > maxUnitName)
+        // ConfidenceLevel check
+        protected bool ValidateConfidenceLevel(SoldierReport report, out string rejectionReason)
+        {
+            int minConfidenceLevel = 1;
+            int maxConfidenceLevel = 5;
+
+            if (report.ConfidenceLevel > 1 || report.ConfidenceLevel < 5)
             {
-                rejectionReason = "Invalid Unit: must be between 2 and 50";
+                rejectionReason = "Invalid ConfidenceLevel: must be between 1 and 5";
                 return false;
             }
 
