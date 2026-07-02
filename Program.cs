@@ -1,16 +1,93 @@
 ﻿using System;
+using IntelligencePipeline.Models.Reports;
+using IntelligencePipeline.Pipeline;
 
 namespace IntelligencePipeline
 {
     // Application entry point and user interface.
     class Program
     {
+        private static ReportPipeline reportPipeline;
+
+        static void Main(string[] args)
+        {
+            reportPipeline = new ReportPipeline();
+
+            Console.WriteLine("=== Welcome to the Intelligence Pipeline System ===\n");
+
+            bool toExit = false;
+
+            while (!toExit)
+            {
+                PrintMenu();
+                Console.Write("Your choice: ");
+                string userChoice = Console.ReadLine();
+
+                if (int.TryParse(userChoice, out int intUserChoice))
+                {
+                    switch (intUserChoice)
+                    {
+                        case 1:
+                            HandleAddReport();
+                            break;
+                        case 2:
+                            Console.WriteLine("Displaying Validated Reports"); // ימומש בהמשך
+                            break;
+                        case 3:
+                            Console.WriteLine("Search Reports"); // ימומש בהמשך
+                            break;
+                        case 4:
+                            Console.WriteLine("Filter Reports"); // ימומש בהמשך
+                            break;
+                        case 5:
+                            Console.WriteLine("Sort Reports"); // ימומש בהמשך
+                            break;
+                        case 6:
+                            Console.WriteLine("Update Report Status"); // ימומש בהמשך
+                            break;
+                        case 7:
+                            Console.WriteLine("Show Report Details"); // ימומש בהמשך
+                            break;
+                        case 8:
+                            Console.WriteLine("Displaying Rejected Reports"); // ימומש בהמשך
+                            break;
+                        case 9:
+                            Console.WriteLine("Show Statistics"); // ימומש בהמשך
+                            break;
+                        case 10:
+                            Console.WriteLine("Exiting the system. Goodbye!");
+                            toExit = true;
+                            break;
+                        default:
+                            Console.WriteLine("Please enter a valid option from the menu.");
+                            break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter a number.");
+                }
+
+                Console.WriteLine("\nPress any key to continue...");
+                Console.ReadKey();
+                Console.Clear();
+            }
+        }
+
         static void PrintMenu()
         {
             string menu = """
-                Please select one of the following options:
+                Please select one of the options:
                 1. Add Report
-                10. Exit System\n
+                2. Show Validated Reports
+                3. Search Reports
+                4. Filter Reports
+                5. Sort Reports
+                6. Update Report Status
+                7. Show Report Details
+                8. Show Rejected Reports
+                9. Show Statistics
+                10. Exit System
                 """;
 
             Console.WriteLine(menu);
@@ -29,50 +106,47 @@ namespace IntelligencePipeline
             Console.WriteLine(reportsTypeMenu);
         }
 
-        public static void Main(string[] args)
+        
+        static void HandleAddReport()
         {
-            Console.WriteLine("===Welcome to the Intelligence Pipeline System===");
+            PrintReportsTypeMenu();
+            Console.Write("Your choice: ");
+            string userReportTypeChoice = Console.ReadLine();
 
-            bool toExit = false;
-
-            while (!toExit)
+            if (int.TryParse(userReportTypeChoice, out int intUserReportTypeChoice))
             {
-                PrintMenu();
-                Console.Write("Your choice: ");
-                string userChoice = Console.ReadLine();
-
-                if (int.TryParse(userChoice, out int intChoice))
+                switch (intUserReportTypeChoice)
                 {
-                    switch (intChoice)
-                    {
-                        case 1:
-                            PrintReportsTypeMenu();
-                            string userReportTypeChoice = Console.ReadLine();
-                            break; 
+                    case 1:
+                        Console.WriteLine("Please enter Drone input in the format: [Timestamp, Latitude, Longitude, Description, Altitude, ImageQuality]");
+                        string droneInput = Console.ReadLine();
+                      
 
-                        case 2:
-                        case 3:
-                        case 4:
-                        case 5:
-                        case 6:
-                        case 7:
-                        case 8:
-                        case 9:
-                        case 10:
-                            Console.WriteLine("Exiting the system. Goodbye!");
-                            toExit = true;
-                            break; 
+                        break;
 
-                        default:
-                            Console.WriteLine("Please enter a valid option from the menu.");
-                            break;
-                    }
+                    case 2:
+                        Console.WriteLine("Please enter Soldier input...");
+                        
+                        break;
+
+                    case 3:
+                        Console.WriteLine("Please enter Radar input...");
+                        
+                        break;
+
+                    case 4:
+                        Console.WriteLine("Please enter Signal input...");
+                        
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid report type selected.");
+                        break;
                 }
-                else
-                {
-                    Console.WriteLine("Invalid input. Please enter a number.");
-                    continue;
-                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Please enter a number.");
             }
         }
     }
