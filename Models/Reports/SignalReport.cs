@@ -24,10 +24,10 @@ namespace IntelligencePipeline.Models.Reports
                             int signalStrength)
                             : base(reportId, timestamp, latitude, longitude, description)
         {
-            Frequency = _frequency;
-            Content = _content;
-            Language = _language;
-            SignalStrength = _signalStrength;
+            Frequency = frequency;
+            Content = content;
+            Language = language;
+            SignalStrength = signalStrength;
         }
 
 
@@ -41,18 +41,17 @@ namespace IntelligencePipeline.Models.Reports
         {
             string[] suspiciousWords = { "attack", "target", "border", "vehicle" };
 
-            bool isContainSuspiciousWord = false;
 
             foreach (string suspiciousWord in suspiciousWords)
             {
                 if (Content.Contains(suspiciousWord, StringComparison.OrdinalIgnoreCase))
                 {
-                    isContainSuspiciousWord = true;
+                    return true;
                 }
 
             }
 
-            return isContainSuspiciousWord;
+            return false;
         }
 
 

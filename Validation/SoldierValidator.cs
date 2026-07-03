@@ -3,8 +3,7 @@ using IntelligencePipeline.Models.Reports;
 
 namespace IntelligencePipeline.Validation
 {
-    // Validates drone-specific report fields.
-
+    // Validates soldier-specific report fields.
     public class SoldierValidator : BaseValidator
     {
         protected override ValidationResult ValidateSpecificFields(Report report)

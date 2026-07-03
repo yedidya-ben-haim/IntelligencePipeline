@@ -38,18 +38,16 @@ namespace IntelligencePipeline.Models.Reports
         {
             string[] suspiciousWords = { "weapon", "vehicle", "movement", "explosion" };
 
-            bool isContainSuspiciousWord = false;
-
             foreach (string suspiciousWord in suspiciousWords )
             {
                 if (Description.Contains(suspiciousWord, StringComparison.OrdinalIgnoreCase))
                 {
-                    isContainSuspiciousWord = true;
+                    return true;
                 }
 
             }
 
-            return isContainSuspiciousWord;
+            return false;
         }
 
 

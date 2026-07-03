@@ -127,10 +127,5 @@ namespace IntelligencePipeline.Validation
             rejectionReason = null;
             return true;
         }
-
-
-
-
-
     }
 }
