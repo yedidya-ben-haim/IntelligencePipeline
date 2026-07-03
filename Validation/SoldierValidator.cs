@@ -49,6 +49,13 @@ namespace IntelligencePipeline.Validation
         // SoldierID check
         protected bool ValidateSoldierID(SoldierReport report, out string rejectionReason)
         {
+            if (string.IsNullOrWhiteSpace(report.SoldierID))
+            {
+                rejectionReason = "Missing required field: SoldierID";
+                return false;
+            }
+
+            // SoldierID not null or empty
             int properSoldierId = 7;
             
 
@@ -89,7 +96,7 @@ namespace IntelligencePipeline.Validation
             int minConfidenceLevel = 1;
             int maxConfidenceLevel = 5;
 
-            if (report.ConfidenceLevel > 1 || report.ConfidenceLevel < 5)
+            if (report.ConfidenceLevel > maxConfidenceLevel || report.ConfidenceLevel < minConfidenceLevel)
             {
                 rejectionReason = "Invalid ConfidenceLevel: must be between 1 and 5";
                 return false;

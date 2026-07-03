@@ -37,7 +37,7 @@ namespace IntelligencePipeline.Validation
 
             if (report.Frequency < minFrequency || report.Frequency > maxFrequency)
             {
-                rejectionReason = "Invalid Frequency: must be between 0.1 and 3000";
+                rejectionReason = "Invalid Frequency: must be between 1.0 and 3000";
                 return false;
             }
 
@@ -64,7 +64,7 @@ namespace IntelligencePipeline.Validation
         // Language check
         protected bool ValidateLanguage(SignalReport report, out string rejectionReason)
         {
-            if (!Enum.IsDefined(typeof(Language), report.Language))
+            if (!Enum.IsDefined<Language>(report.Language))
             {
                 rejectionReason = " Invalid Language. Must be: Hebrew, Arabic, English, Russian, Other";
                 return false;
@@ -74,6 +74,7 @@ namespace IntelligencePipeline.Validation
             return true;
         }
 
+        // SignalStrength check
         protected bool ValidateSignalStrength(SignalReport report, out string rejectionReason)
         {
             int minSignalStrength = -120;
