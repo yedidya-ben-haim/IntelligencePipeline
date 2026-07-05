@@ -5,7 +5,7 @@ using IntelligencePipeline.Models.Reports;
 namespace IntelligencePipeline.Storage
 {
     // Stores and manages validated reports.
-    class ReportRepository
+    public class ReportRepository
     {
         private List<Report> _reports;
 
@@ -63,9 +63,14 @@ namespace IntelligencePipeline.Storage
         {
             List<Report> searchByKeywordList = new();
 
+            if (string.IsNullOrWhiteSpace(keyword))
+            {
+                return searchByKeywordList;
+            }
+
             foreach (Report report in _reports)
             {
-                if (report.Description.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+                if (report.Description.Contains(keyword, StringComparison.OrdinalIgnoreCase))
                 {
                     searchByKeywordList.Add(report);
                 }
@@ -74,7 +79,7 @@ namespace IntelligencePipeline.Storage
             return searchByKeywordList;
         }
 
-        public Report GetById(int reportId)
+        public Report? GetById(int reportId)
         {
             foreach (Report report in _reports)
             {
@@ -89,7 +94,12 @@ namespace IntelligencePipeline.Storage
 
         public void UpdateStatus(int reportId, ReportStatus newStatus)
         {
-            Report reportToUpdate = GetById(reportId);
+            if (newStatus != ReportStatus.InProgress && newStatus != ReportStatus.Completed)
+            {
+                return;
+            }
+
+            Report? reportToUpdate = GetById(reportId);
             
             if (reportToUpdate != null)
             {

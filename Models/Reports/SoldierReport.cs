@@ -3,17 +3,10 @@ namespace IntelligencePipeline.Models.Reports
     // Represents an intelligence report from a soldier in the field.
     public class SoldierReport : Report
     {
-        private string _soldierName;
-        private string _soldierID;
-        private string _unit;
-        private int _confidenceLevel;
-
-
-        // Properties
-        public string SoldierName { get => _soldierName; protected set { _soldierName = value; } }
-        public string SoldierID { get => _soldierID; protected set { _soldierID = value; } }
-        public string Unit { get => _unit; protected set { _unit = value; } }
-        public int ConfidenceLevel { get => _confidenceLevel; protected set { _confidenceLevel = value; } }
+        public string SoldierName { get; protected set; }
+        public string SoldierID { get; protected set; }
+        public string Unit { get; protected set; }
+        public int ConfidenceLevel { get; protected set; }
 
 
         // Constructor

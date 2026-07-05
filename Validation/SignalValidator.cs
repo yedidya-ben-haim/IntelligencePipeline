@@ -9,19 +9,29 @@ namespace IntelligencePipeline.Validation
         protected override ValidationResult ValidateSpecificFields(Report report)
         {
             if (report is not SignalReport signalReport)
-                return ValidationResult.Failure("Report is not a SignalReport");
+                { 
+                return ValidationResult.Failure("Report is not a SignalReport"); 
+            }
 
             if (!ValidateFrequency(signalReport, out string rejectionReason))
-                return ValidationResult.Failure(rejectionReason);
+                { 
+                return ValidationResult.Failure(rejectionReason); 
+            }
 
             if (!ValidateContent(signalReport, out rejectionReason))
-                return ValidationResult.Failure(rejectionReason);
+                { 
+                return ValidationResult.Failure(rejectionReason); 
+            }
 
             if (!ValidateLanguage(signalReport, out rejectionReason))
-                return ValidationResult.Failure(rejectionReason);
+                { 
+                return ValidationResult.Failure(rejectionReason); 
+            }
 
             if (!ValidateSignalStrength(signalReport, out rejectionReason))
-                return ValidationResult.Failure(rejectionReason);
+                { 
+                return ValidationResult.Failure(rejectionReason); 
+            }
 
             return ValidationResult.Success();
         }
@@ -32,8 +42,8 @@ namespace IntelligencePipeline.Validation
         // Frequency check
         protected bool ValidateFrequency(SignalReport report, out string rejectionReason)
         {
-            double minFrequency = 1.0;
-            double maxFrequency = 3000;
+            const double minFrequency = 1.0;
+            const double maxFrequency = 3000;
 
             if (report.Frequency < minFrequency || report.Frequency > maxFrequency)
             {
@@ -41,15 +51,21 @@ namespace IntelligencePipeline.Validation
                 return false;
             }
 
-            rejectionReason = null;
+            rejectionReason = "";
             return true;
         }
 
         // Content check
         protected bool ValidateContent(SignalReport report, out string rejectionReason)
         {
-            int minContentLength = 5;
-            int maxContentLength = 1000;
+            const int minContentLength = 5;
+            const int maxContentLength = 1000;
+
+            if (string.IsNullOrWhiteSpace(report.Content))
+            {
+                rejectionReason = "Missing required field: Content";
+                return false;
+            }
 
             if (report.Content.Length < minContentLength || report.Content.Length > maxContentLength)
             {
@@ -57,7 +73,7 @@ namespace IntelligencePipeline.Validation
                 return false;
             }
 
-            rejectionReason = null;
+            rejectionReason = "";
             return true;
         }
 
@@ -66,27 +82,27 @@ namespace IntelligencePipeline.Validation
         {
             if (!Enum.IsDefined<Language>(report.Language))
             {
-                rejectionReason = " Invalid Language. Must be: Hebrew, Arabic, English, Russian, Other";
+                rejectionReason = "Invalid Language. Must be: Hebrew, Arabic, English, Russian, Other";
                 return false;
             }
 
-            rejectionReason = null;
+            rejectionReason = "";
             return true;
         }
 
         // SignalStrength check
         protected bool ValidateSignalStrength(SignalReport report, out string rejectionReason)
         {
-            int minSignalStrength = -120;
-            int maxSignalStrength = 0;
+            const int minSignalStrength = -120;
+            const int maxSignalStrength = 0;
 
             if (report.SignalStrength < minSignalStrength || report.SignalStrength > maxSignalStrength)
             {
-                rejectionReason = "Invalid Signal Strength: must be between -120 and 0";
+                rejectionReason = "Invalid SignalStrength: must be between - 120 and 0";
                 return false;
             }
 
-            rejectionReason = null;
+            rejectionReason = "";
             return true;
         }
     }

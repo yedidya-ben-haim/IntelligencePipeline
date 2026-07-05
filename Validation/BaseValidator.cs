@@ -9,6 +9,11 @@ namespace IntelligencePipeline.Validation
 
         public ValidationResult Validate(Report report)
         {
+            if (report == null)
+            {
+                return ValidationResult.Failure("Missing required field: Report");
+            }
+
             ValidationResult commonValidation = ValidateCommonFields(report);
             
             if (!commonValidation.IsValid)
@@ -58,13 +63,19 @@ namespace IntelligencePipeline.Validation
             DateTime currentTime = DateTime.Now;
             DateTime minTime = new DateTime(2020, 1, 1);
 
-            if (report.Timestamp < minTime || report.Timestamp > currentTime)
+            if (report.Timestamp < minTime)
             {
-                rejectionReason = "Invalid Timestamp: must be between 2020-01-01 and current time";
+                rejectionReason = "Invalid Timestamp: must not be before 2020-01-01";
                 return false;
             }
-            
-            rejectionReason = null;
+
+            if (report.Timestamp > DateTime.Now)
+            {
+                rejectionReason = "Invalid Timestamp: must not be in the future";
+                return false;
+            }
+
+            rejectionReason = "";
             return true;
         }
 
@@ -72,8 +83,8 @@ namespace IntelligencePipeline.Validation
         // Latitude check
         protected bool ValidateLatitude(Report report, out string rejectionReason)
         {
-            double minLatitude = 29.5000;
-            double maxLatitude = 33.5000;
+            const double minLatitude = 29.5000;
+            const double maxLatitude = 33.5000;
             
 
             if (report.Latitude < minLatitude || report.Latitude > maxLatitude)
@@ -82,7 +93,7 @@ namespace IntelligencePipeline.Validation
                 return false;
             }
             
-            rejectionReason = null;
+            rejectionReason = "";
             return true;
         }
 
@@ -90,8 +101,8 @@ namespace IntelligencePipeline.Validation
         // Longitude check
         protected bool ValidateLongitude(Report report, out string rejectionReason)
         {
-            double minLongitude = 34.0000;
-            double maxLongitude = 36.0000;
+            const double minLongitude = 34.0000;
+            const double maxLongitude = 36.0000;
             
 
             if (report.Longitude < minLongitude || report.Longitude > maxLongitude)
@@ -100,7 +111,7 @@ namespace IntelligencePipeline.Validation
                 return false;
             }
             
-            rejectionReason = null;
+            rejectionReason = "";
             return true;
         }
 
@@ -108,8 +119,8 @@ namespace IntelligencePipeline.Validation
         // Description check
         protected bool ValidateDescription(Report report, out string rejectionReason)
         {
-            int minDescriptionLength = 10;
-            int maxDescriptionLength = 500;
+            const int minDescriptionLength = 10;
+            const int maxDescriptionLength = 500;
 
 
 
@@ -124,7 +135,7 @@ namespace IntelligencePipeline.Validation
                 return false;
             }
 
-            rejectionReason = null;
+            rejectionReason = "";
             return true;
         }
     }

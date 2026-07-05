@@ -4,7 +4,7 @@ using IntelligencePipeline.Models.Reports;
 namespace IntelligencePipeline.Storage
 {
     // Stores and manages rejected reports separately.
-    class RejectedReportRepository
+    public class RejectedReportRepository
     {
         private List<Report> _rejectedReports;
 
@@ -19,7 +19,10 @@ namespace IntelligencePipeline.Storage
         // Methods
         public void Add(Report report) 
         {
-            _rejectedReports.Add(report);
+            if (report.Status == ReportStatus.Rejected)
+            {
+                _rejectedReports.Add(report);
+            }
         }
 
         public List<Report> GetAll() 
@@ -35,6 +38,11 @@ namespace IntelligencePipeline.Storage
         public List<Report> GetByReason(string reasonKeyword) 
         {
             List<Report> getByReasonList = new();
+
+            if (string.IsNullOrWhiteSpace(reasonKeyword))
+            {
+                return getByReasonList;
+            }
 
             foreach (Report report in _rejectedReports)
             {

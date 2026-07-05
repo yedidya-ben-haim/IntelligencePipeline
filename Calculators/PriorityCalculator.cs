@@ -26,7 +26,7 @@ namespace IntelligencePipeline.Calculators
                 return true;
             }
 
-            if (report is RadarReport radarReport && radarReport.Speed <= 800)
+            if (report is RadarReport radarReport && radarReport.Speed >= 800)
             {
                 return true;
             }
@@ -48,18 +48,18 @@ namespace IntelligencePipeline.Calculators
                 return true;
             }
 
-            if (report is DroneReport droneReport && droneReport.Altitude > 500)
+            if (report is DroneReport droneReport && droneReport.Altitude < 500
             {
                 return true;
             }
 
-            if (report is RadarReport radarReport && radarReport.Speed <= 400)
+            if (report is RadarReport radarReport && radarReport.Speed >= 400)
             {
                 return true;
             }
 
             if (report is SoldierReport soldierReport &&
-                soldierReport.ConfidenceLevel < 4 &&
+                soldierReport.ConfidenceLevel >= 4 &&
                 soldierReport.Description.Contains("movement", StringComparison.OrdinalIgnoreCase))
             {
                 return true;
@@ -75,7 +75,7 @@ namespace IntelligencePipeline.Calculators
                 return true;
             }
 
-            if (report is RadarReport radarReport && radarReport.Speed <= 120)
+            if (report is RadarReport radarReport && radarReport.Speed >= 120)
             {
                 return true;
             }

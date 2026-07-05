@@ -7,8 +7,8 @@ namespace IntelligencePipeline.Calculators
     {
         public int Calculate(Report report)
         {
-            int maxreliabilityScore = 10;
-            int minreliabilityScore = 1;
+            const int maxreliabilityScore = 10;
+            const int minreliabilityScore = 1;
 
             int reliabilityScore = report.CalculateReliabilityScore();
 

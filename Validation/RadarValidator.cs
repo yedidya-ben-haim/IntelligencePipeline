@@ -8,16 +8,24 @@ namespace IntelligencePipeline.Validation
         protected override ValidationResult ValidateSpecificFields(Report report)
         {
             if (report is not RadarReport radarReport)
+            {
                 return ValidationResult.Failure("Report is not a RadarReport");
+            }
 
             if (!ValidateSpeed(radarReport, out string rejectionReason))
+            {
                 return ValidationResult.Failure(rejectionReason);
+            }
 
             if (!ValidateDirection(radarReport, out rejectionReason))
+            {
                 return ValidationResult.Failure(rejectionReason);
+            }
 
             if (!ValidateDistance(radarReport, out rejectionReason))
+            {
                 return ValidationResult.Failure(rejectionReason);
+            }
 
             return ValidationResult.Success();
         }
@@ -30,8 +38,8 @@ namespace IntelligencePipeline.Validation
         // Speed check
         protected bool ValidateSpeed(RadarReport report, out string rejectionReason)
         {
-            int minSpeed = 0;
-            int maxSpeed = 2000;
+            const int minSpeed = 0;
+            const int maxSpeed = 2000;
 
             if (report.Speed < minSpeed || report.Speed > maxSpeed)
             {
@@ -39,15 +47,15 @@ namespace IntelligencePipeline.Validation
                 return false;
             }
 
-            rejectionReason = null;
+            rejectionReason = "";
             return true;
         }
 
         // Direction check
         protected bool ValidateDirection(RadarReport report, out string rejectionReason)
         {
-            int minDirection = 0;
-            int maxDirection = 360;
+            const int minDirection = 0;
+            const int maxDirection = 360;
 
             if (report.Direction < minDirection || report.Direction > maxDirection)
             {
@@ -55,15 +63,15 @@ namespace IntelligencePipeline.Validation
                 return false;
             }
 
-            rejectionReason = null;
+            rejectionReason = "";
             return true;
         }
 
         // Distance check
         protected bool ValidateDistance(RadarReport report, out string rejectionReason)
         {
-            int minDistance = 100;
-            int maxDistance = 100000;
+            const int minDistance = 100;
+            const int maxDistance = 100000;
 
             if (report.Distance < minDistance || report.Distance > maxDistance)
             {
@@ -71,7 +79,7 @@ namespace IntelligencePipeline.Validation
                 return false;
             }
 
-            rejectionReason = null;
+            rejectionReason = "";
             return true;
         }
     }

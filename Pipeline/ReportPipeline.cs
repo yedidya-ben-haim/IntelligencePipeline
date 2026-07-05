@@ -3,7 +3,6 @@ using IntelligencePipeline.Models.Enums;
 using IntelligencePipeline.Models.Reports;
 using IntelligencePipeline.Storage;
 using IntelligencePipeline.Validation;
-using IntelligencePipeline.Calculators;
 
 namespace IntelligencePipeline.Pipeline
 {
@@ -26,6 +25,11 @@ namespace IntelligencePipeline.Pipeline
         //Methods
         public void ProcessReport(Report report)
         {
+            if (report == null)
+            {
+                return;
+            }
+
             if (report.Status == ReportStatus.New)
             {
                 report.Status = ReportStatus.Validating;
@@ -34,8 +38,10 @@ namespace IntelligencePipeline.Pipeline
 
                 if (report.Status == ReportStatus.Validated)
                 {
-                    report.ReliabilityScore = R
+                    CalculateMetrics(report);
                 }
+
+                StoreReport(report);
 
             }
         }
@@ -46,39 +52,54 @@ namespace IntelligencePipeline.Pipeline
 
         public ReportRepository GetValidatedReports()
         {
-            ReportRepository reportRepository = 
+            return _validatedReports;
         }
-        //public RejectedReportRepository GetRejectedReports()
+
+        public RejectedReportRepository GetRejectedReports()
+        {
+            return _rejectedReports;
+        }
+
         //public void DisplayStatistics()
+        // todo: to complite
+
+
 
         // Private Methods
 
         // Returns IValidator suitable for any type
-        private IValidator GetValidator(Report report)
+        private IValidator? GetValidator(Report report)
         {
-            if (report is DroneReport droneReport)
+            if (report is DroneReport)
             {
                 return new DroneValidator();
             }
-            if (report is SoldierReport soldierReport)
+            else if (report is SoldierReport)
             {
                 return new SoldierValidator();
             }
-            if (report is SignalReport signalReport)
+            else if (report is SignalReport)
             {
                 return new SignalValidator();
             }
-            if (report is RadarReport radarReport)
+            else if (report is RadarReport)
             {
                 return new RadarValidator();
             }
+
             return null;
         }
-
 
         private void ValidateReport(Report report)
         {
             IValidator validator = GetValidator(report);
+
+            if (validator == null)
+            {
+                report.Status = ReportStatus.Rejected;
+                report.RejectionReason = "Unsupported report type";
+                return;
+            }
 
             ValidationResult validationResult = validator.Validate(report);
 
@@ -86,27 +107,26 @@ namespace IntelligencePipeline.Pipeline
             {
                 report.Status = ReportStatus.Rejected;
                 report.RejectionReason = validationResult.ErrorMessage;
-
-            }
-            if (validationResult.IsValid)
-            {
-                report.Status = ReportStatus.Validated;
+                return;
             }
 
+            report.Status = ReportStatus.Validated;
         }
-
 
         private void CalculateMetrics(Report report)
         {
-            report.ReliabilityScore = ReliabilityCalculator.cco
+            report.ReliabilityScore = new ReliabilityCalculator().Calculate(report);
+            report.Priority = new PriorityCalculator().Calculate(report);
+            report.Classification = new ClassificationCalculator().Calculate(report);
         }
+
         private void StoreReport(Report report)
         {
             if (report.Status == ReportStatus.Rejected)
             {
                 _rejectedReports.Add(report);
             }
-            if (report.Status == ReportStatus.Validated)
+            else if (report.Status == ReportStatus.Validated)
             {
                 _validatedReports.Add(report);
             }

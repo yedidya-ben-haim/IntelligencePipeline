@@ -3,13 +3,8 @@ namespace IntelligencePipeline.Models.Reports
     // Represents an intelligence report from a drone source
     public class DroneReport : Report
     {
-        private int _altitude;
-        private int _imageQuality;
-
-
-        // Properties
-        public int Altitude { get => _altitude; protected set { _altitude = value; } }
-        public int ImageQuality { get => _imageQuality; protected set { _imageQuality = value; } }
+        public int Altitude { get; protected set; }
+        public int ImageQuality { get; protected set; }
 
 
         // Constructor
@@ -43,7 +38,7 @@ namespace IntelligencePipeline.Models.Reports
             {
                 reliabilityScore += 2;
             }
-            else if (Altitude >= 7000)
+            else if (Altitude > 7000)
             {
                 reliabilityScore -= 2;
             }

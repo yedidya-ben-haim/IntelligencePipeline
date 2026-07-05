@@ -5,17 +5,10 @@ namespace IntelligencePipeline.Models.Reports
     // Represents an intelligence report from a signal intelligence system.
     public class SignalReport : Report
     {
-        private double _frequency;
-        private string _content;
-        private Language _language;
-        private int _signalStrength;
-
-
-        // Properties
-        public double Frequency { get => _frequency; protected set { _frequency = value; } }
-        public string Content { get => _content; protected set { _content = value; } }
-        public Language Language { get => _language; protected set { _language = value; } }
-        public int SignalStrength { get => _signalStrength; protected set { _signalStrength = value; } }
+        public double Frequency { get; protected set; }
+        public string Content { get; protected set; }
+        public Language Language { get; protected set; }
+        public int SignalStrength { get; protected set; }
 
 
         // Constructor
@@ -39,6 +32,11 @@ namespace IntelligencePipeline.Models.Reports
         // Auxiliary functions
         public bool ContainSuspiciousWord()
         {
+            if (string.IsNullOrWhiteSpace(Content))
+            {
+                return false;
+            }
+
             string[] suspiciousWords = { "attack", "target", "border", "vehicle" };
 
 
@@ -53,7 +51,6 @@ namespace IntelligencePipeline.Models.Reports
 
             return false;
         }
-
 
 
         // Calculate Signal specific reliability

@@ -33,8 +33,14 @@ namespace IntelligencePipeline.Validation
         // SoldierName check
         protected bool ValidateSoldierName(SoldierReport report, out string rejectionReason)
         {
-            int minSoldierName = 2;
-            int maxSoldierName = 50;
+            const int minSoldierName = 2;
+            const int maxSoldierName = 50;
+
+            if (string.IsNullOrWhiteSpace(report.SoldierName))
+            {
+                rejectionReason = "Missing required field: SoldierName";
+                return false;
+            }
 
             if (report.SoldierName.Length < minSoldierName || report.SoldierName.Length > maxSoldierName)
             {
@@ -42,7 +48,7 @@ namespace IntelligencePipeline.Validation
                 return false;
             }
 
-            rejectionReason = null;
+            rejectionReason = "";
             return true;
         }
 
@@ -56,29 +62,38 @@ namespace IntelligencePipeline.Validation
             }
 
             // SoldierID not null or empty
-            int properSoldierId = 7;
+            const int properSoldierId = 7;
             
 
             if (report.SoldierID.Length != properSoldierId)
             {
-                rejectionReason = "Invalid SoldierID: must be between 7 digits";
+                rejectionReason = "Invalid SoldierID: must contain exactly 7 digits";
                 return false;
             }
-            if (!int.TryParse(report.SoldierID, out int result))
+            foreach (char digit in report.SoldierID)
             {
-                rejectionReason = "Invalid SoldierID. Must be: digits";
-                return false;
+                if (!char.IsDigit(digit))
+                {
+                    rejectionReason = "Invalid SoldierID: must contain only digits";
+                    return false;
+                }
             }
 
-            rejectionReason = null;
+            rejectionReason = "";
             return true;
         }
 
         // Unit check
         protected bool ValidateUnit(SoldierReport report, out string rejectionReason)
         {
-            int minUnitname = 2;
-            int maxUnitName = 50;
+            const int minUnitname = 2;
+            const int maxUnitName = 50;
+
+            if (string.IsNullOrWhiteSpace(report.Unit))
+            {
+                rejectionReason = "Missing required field: Unit";
+                return false;
+            }
 
             if (report.Unit.Length < minUnitname || report.Unit.Length > maxUnitName)
             {
@@ -86,15 +101,15 @@ namespace IntelligencePipeline.Validation
                 return false;
             }
 
-            rejectionReason = null;
+            rejectionReason = "";
             return true;
         }
 
         // ConfidenceLevel check
         protected bool ValidateConfidenceLevel(SoldierReport report, out string rejectionReason)
         {
-            int minConfidenceLevel = 1;
-            int maxConfidenceLevel = 5;
+            const int minConfidenceLevel = 1;
+            const int maxConfidenceLevel = 5;
 
             if (report.ConfidenceLevel > maxConfidenceLevel || report.ConfidenceLevel < minConfidenceLevel)
             {
@@ -102,9 +117,9 @@ namespace IntelligencePipeline.Validation
                 return false;
             }
 
-            rejectionReason = null;
+            rejectionReason = "";
             return true;
         }
-
+ 
     }
 }

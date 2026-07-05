@@ -3,15 +3,9 @@ namespace IntelligencePipeline.Models.Reports
     // Represents an intelligence report from a radar system.
     public class RadarReport : Report
     {
-        private int _speed;
-        private int _direction;
-        private int _distance;
-
-
-        // Properties
-        public int Speed { get => _speed; protected set { _speed = value; } }
-        public int Direction { get => _direction; protected set { _direction = value; } }
-        public int Distance { get => _distance; protected set { _distance = value; } }
+        public int Speed { get; protected set; }
+        public int Direction { get; protected set; }
+        public int Distance { get; protected set; }
 
 
         // Constructor
