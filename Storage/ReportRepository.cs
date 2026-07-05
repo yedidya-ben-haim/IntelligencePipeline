@@ -1,6 +1,7 @@
 using IntelligencePipeline.Models.Enums;
 using IntelligencePipeline.Models.Reports;
 
+
 namespace IntelligencePipeline.Storage
 {
     // Stores and manages validated reports.
@@ -12,50 +13,101 @@ namespace IntelligencePipeline.Storage
         // Constructor
         public ReportRepository()
         {
-            List<Report> reports = new();
+            _reports = new List<Report>();
         }
 
 
-        // Methods
-        // todo: לממש
+        //Methods
+        public void Add(Report report)
+        {
+            _reports.Add(report);
+        }
 
-        //public void Add(Report report)
-        //{
+        public List<Report> GetAll()
+        {
+            return _reports;
+        }
 
-        //}
-        //public List<Report> GetAll()
-        //{
+        public List<Report> GetByStatus(ReportStatus status)
+        {
+            List<Report> byStatusList = new();
 
-        //}
-        //public List<Report> GetByStatus(ReportStatus status)
-        //{
+            foreach (Report report in _reports)
+            {
+                if (report.Status == status)
+                {
+                    byStatusList.Add(report);
+                }
+            }
 
-        //}
-        //public List<Report> GetByPriority(Priority priority)
-        //{
+            return byStatusList;
+        }
 
-        //}
-        //public List<Report> Search(string keyword)
-        //{
+        public List<Report> GetByPriority(Priority priority)
+        {
+            List<Report> byPriorityList = new();
 
-        //}
+            foreach (Report report in _reports)
+            {
+                if (report.Priority == priority)
+                {
+                    byPriorityList.Add(report);
+                }
+            }
 
-        //public Report GetById(int reportId)
-        //{
+            return byPriorityList;
+        }
 
-        //}
-        //public void UpdateStatus(int reportId, ReportStatus newStatus)
-        //{
 
-        //}
-        //public int GetTotalCount()
-        //{
+        public List<Report> Search(string keyword)
+        {
+            List<Report> searchByKeywordList = new();
 
-        //}
-        //public int GetCountByStatus(ReportStatus status)
-        //{
+            foreach (Report report in _reports)
+            {
+                if (report.Description.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+                {
+                    searchByKeywordList.Add(report);
+                }
+            }
 
-        //}
+            return searchByKeywordList;
+        }
+
+        public Report GetById(int reportId)
+        {
+            foreach (Report report in _reports)
+            {
+                if (report.ReportId == reportId)
+                {
+                    return report;
+                }
+
+            }
+            return null;
+        }
+
+        public void UpdateStatus(int reportId, ReportStatus newStatus)
+        {
+            Report reportToUpdate = GetById(reportId);
+            
+            if (reportToUpdate != null)
+            {
+                reportToUpdate.Status = newStatus;
+            }
+        }
+
+        public int GetTotalCount()
+        {
+            return _reports.Count;
+        }
+
+        public int GetCountByStatus(ReportStatus status)
+        {
+            List<Report> byStatusList = GetByStatus(status);
+
+            return byStatusList.Count;
+        }
 
     }
 }

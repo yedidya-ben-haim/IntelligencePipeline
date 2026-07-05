@@ -38,7 +38,7 @@ namespace IntelligencePipeline.Models.Reports
 
             int reliabilityScore = BaseRadarReliabilityScore;
 
-            if (Distance >= 500 && Distance <= 3000)
+            if (Distance >= 500 && Distance <= 30000)
             {
                 reliabilityScore += 2;
             }

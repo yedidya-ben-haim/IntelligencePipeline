@@ -67,7 +67,7 @@ namespace IntelligencePipeline.Validation
 
             if (report.Distance < minDistance || report.Distance > maxDistance)
             {
-                rejectionReason = "Invalid Distance: must be between 0 and 100000";
+                rejectionReason = "Invalid Distance: must be between 100 and 100000";
                 return false;
             }
 

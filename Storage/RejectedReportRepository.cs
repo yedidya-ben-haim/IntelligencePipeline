@@ -12,15 +12,38 @@ namespace IntelligencePipeline.Storage
         // Constructor
         public RejectedReportRepository()
         {
-            List<Report> rejectedReports = new();
+            _rejectedReports = new List<Report>();
         }
 
 
         // Methods
-        // todo: לממש
-        //public void Add(Report report) { }
-        //public List<Report> GetAll() { return new List<Report> }
-        //public int GetTotalCount() { return 1; }
-        //public List<Report> GetByReason(string reasonKeyword) { return new List<Report>; }
+        public void Add(Report report) 
+        {
+            _rejectedReports.Add(report);
+        }
+
+        public List<Report> GetAll() 
+        {
+            return _rejectedReports;
+        }
+
+        public int GetTotalCount() 
+        {
+            return _rejectedReports.Count; 
+        }
+
+        public List<Report> GetByReason(string reasonKeyword) 
+        {
+            List<Report> getByReasonList = new();
+
+            foreach (Report report in _rejectedReports)
+            {
+                if (report.RejectionReason.Contains(reasonKeyword, StringComparison.OrdinalIgnoreCase))
+                {
+                    getByReasonList.Add(report);
+                }
+            }
+            return getByReasonList;
+        }
     }
 }
